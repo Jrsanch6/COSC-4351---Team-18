@@ -23,16 +23,16 @@ async function postSignup(data) {
     return response.json();
 }
 
-async function get_user_information(data) {
-    const response = await fetch('/requests/getUserInformation', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application.json'
-        },
-        body: JSON.stringify(data)
-    })
-    return response.json();
-}
+// async function get_user_information(data) {
+//     const response = await fetch('/requests/getUserInformation', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application.json'
+//         },
+//         body: JSON.stringify(data)
+//     })
+//     return response.json();
+// }
 
 const handle_signup = (event) => {
     const form = new FormData(event.target);
@@ -41,7 +41,7 @@ const handle_signup = (event) => {
     const re_password = form.get("re_password");
     const firstName = form.get("firstName");
     const lastName = form.get("lastName");
-    const address = form.get("lastName");
+    const address = form.get("address");
     const paymentMethod = form.get("paymentMethod");
 
     if (password !== re_password) {
@@ -66,20 +66,20 @@ const handle_signup = (event) => {
     return false;
 }
 
-//Test to get a table
-// results = {Info: []}
-get_user_information({UserID: 1}).then(results => {
-    const test_list = document.getElementById('test_list');
-    // test_list: {LastName, FirstName, Address, PreferredDinner, EarnedPointsd, PaymentMethod}
+// //Test to get a table
+// // results = {Info: []}
+// get_user_information({UserID: 1}).then(results => {
+//     const test_list = document.getElementById('test_list');
+//     // test_list: {LastName, FirstName, Address, PreferredDinner, EarnedPointsd, PaymentMethod}
 
-    for (const list_info of results.Info) {
-        const li = document.createElement('li');
+//     for (const list_info of results.Info) {
+//         const li = document.createElement('li');
 
-        const body = `Last Name:  ${list_info.LastName} First Name: ${list_info.FirstName} Address: ${list_info.Address} Preferred Dinner: ${list_info.PreferredDinner} Earned Points: ${list_info.EarnedPointsd} Payment Method: ${list_info.PaymentMethod}\t` 
+//         const body = `Last Name:  ${list_info.LastName} First Name: ${list_info.FirstName} Address: ${list_info.Address} Preferred Dinner: ${list_info.PreferredDinner} Earned Points: ${list_info.EarnedPointsd} Payment Method: ${list_info.PaymentMethod}\t` 
 
-        li.innerHTML = body;
+//         li.innerHTML = body;
 
-        test_list.appendChild(li);
-    }
+//         test_list.appendChild(li);
+//     }
 
-});
+// });

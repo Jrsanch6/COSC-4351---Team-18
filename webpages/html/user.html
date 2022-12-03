@@ -34,6 +34,19 @@
             </div>
         </form>
 
+        <form action="#" onsubmit="return handle_change_credit_card(event)" method="post">
+            <div class="field">
+                <label for="cardNumber">New Card Number </label>
+                <input type="text" name="cardNumber" placeholder="Enter 16 Digits of a Valid Credit Card" required pattern="[0-9]{16}">
+            </div>
+            <div class="field btn">
+                <div class="btn-layer"></div>
+                <input type="submit" value = "Update Credit Card">
+            </div>
+        </form>
+
+        
+
         <a href="reservationRegistered">Reserve a Table</a>
         <div class="btn-layer">
             <button class="logoutbtn" id="logoutbtn" onclick="return handle_logout(event);">Log Out</button>

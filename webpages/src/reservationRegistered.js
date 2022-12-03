@@ -94,10 +94,9 @@ date.addEventListener('change', () => {
     var currentPaymentMethod;
     get_user_information({UserID: user_id}).then(results => {
         // test_list: {LastName, FirstName, Address, PreferredDinner, EarnedPointsd, PaymentMethod}
-    
+        
         for (const list_info of results.Info) {
-            
-            currentPaymentMethod = list_info.PaymentMethod.toString();
+            currentPaymentMethod = list_info.CardNumber;
             
         }
         
@@ -135,11 +134,11 @@ date.addEventListener('change', () => {
             const insertTableButton = insert_table_button();
             cell.appendChild(insertTableButton);
             insertTableButton.addEventListener('click', () => {
-                if((getAvailableTables_results.Info.length <=  2 || newDate == 4 || newDate == 5 || newDate == 6 || getAvailableTables_results.Holiday == true) && currentPaymentMethod != "CREDIT"){
+                if((getAvailableTables_results.Info.length <=  2 || newDate == 4 || newDate == 5 || newDate == 6 || getAvailableTables_results.Holiday == true) && currentPaymentMethod == null){
                     alert("High Traffic Day: No show will have minimum $10 charge. Please update your account with a valid credit card to reserve this date");
                     window.location.href = "/user";
                 }
-                else if((getAvailableTables_results.Info.length <=  2 || newDate == 4 || newDate == 5 || newDate == 6 || getAvailableTables_results.Holiday == true) && currentPaymentMethod == "CREDIT"){
+                else if((getAvailableTables_results.Info.length <=  2 || newDate == 4 || newDate == 5 || newDate == 6 || getAvailableTables_results.Holiday == true) && currentPaymentMethod != null){
                     alert("High Traffic Day: No show will have minimum $10 charge.");
                     reserve_registered({UserID: user_id, TableID: table_info.TableID, Date: date.value}).then(reserve_guest_results => {
                         // song_info: {id, title, rating}

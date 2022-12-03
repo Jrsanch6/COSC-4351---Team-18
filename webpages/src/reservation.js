@@ -79,6 +79,11 @@ const date = document.getElementById('date');
 
 date.addEventListener('change', () => {
     //display available tables on specific date
+    const firstName = document.getElementById("firstName");
+    const lastName = document.getElementById("lastName");
+    const address = document.getElementById("address");
+    const seats = document.getElementById("seats");
+
     get_available_tables_in_table({Date: date.value}).then(getAvailableTables_results => {
         var newDate;
         for (const table_date of getAvailableTables_results.Dates){
@@ -118,7 +123,7 @@ date.addEventListener('change', () => {
                     window.location.href = "/register";
                 }
                 else{
-                reserve_guest({TableID: table_info.TableID, Date: date.value}).then(reserve_guest_results => {
+                reserve_guest({TableID: table_info.TableID, Date: date.value, FirstName: firstName.value, LastName: lastName.value, Address: address.value}).then(reserve_guest_results => {
                     // song_info: {id, title, rating}
                     if(reserve_guest_results.Accepted == true){
                         alert(`Table Reserved`);

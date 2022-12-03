@@ -167,7 +167,7 @@ async function handle_posts_requests(request, response) {
             buffers.push(chunk);
         }
         const table_info = JSON.parse(buffers.toString());
-        const output_available_tables_query = `INSERT INTO ReservedTables (TableID, ReservationDate) VALUES("${table_info.TableID}", "${table_info.Date}")`;
+        const output_available_tables_query = `INSERT INTO ReservedTables (TableID, ReservationDate, FirstName, LastName, Address) VALUES("${table_info.TableID}", "${table_info.Date}", "${table_info.FirstName}", "${table_info.LastName}", "${table_info.Address}")`;
 
         connection.query(output_available_tables_query, (error, results) => {
             if (error) {
@@ -210,6 +210,24 @@ async function handle_posts_requests(request, response) {
         }
         const user_info = JSON.parse(buffers.toString());
         const exists_query = `UPDATE persons SET PaymentMethod="${user_info.PaymentMethod}" WHERE UserID="${user_info.UserID}";`
+        connection.query(exists_query, (error, results) => {
+            if (error) {
+                console.log(error);
+                throw error;
+            }
+            response.writeHead(200);
+            response.write(JSON.stringify({'Accepted': true}));
+            response.end();
+        });
+    }
+
+    else if (request.url.substr(0, 26) === "/requests/updateCreditCard") {
+        const buffers = [];
+        for await (const chunk of request) {
+            buffers.push(chunk);
+        }
+        const user_info = JSON.parse(buffers.toString());
+        const exists_query = `UPDATE persons SET CardNumber="${user_info.CreditNumber}" WHERE UserID="${user_info.UserID}";`
         connection.query(exists_query, (error, results) => {
             if (error) {
                 console.log(error);

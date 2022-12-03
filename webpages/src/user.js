@@ -22,6 +22,17 @@ async function updatePaymentMethod(data) {
     return response.json();
 }
 
+async function updateCreditCard(data) {
+    const response = await fetch('/requests/updateCreditCard', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application.json'
+        },
+        body: JSON.stringify(data)
+    })
+    return response.json();
+}
+
 // Need code to handle if no cookie stored for user
 dc = document.cookie;
 const start_idx = dc.indexOf('UserID')
@@ -48,7 +59,7 @@ get_user_information({UserID: user_id}).then(results => {
     for (const list_info of results.Info) {
         const li = document.createElement('li');
 
-        const body = `Last Name:  ${list_info.LastName} First Name: ${list_info.FirstName} Address: ${list_info.Address} Preferred Dinner: ${list_info.PreferredDinner} Earned Points: ${list_info.EarnedPointsd} Payment Method: ${list_info.PaymentMethod}\t` 
+    const body = `Last Name:  ${list_info.LastName} First Name: ${list_info.FirstName} Address: ${list_info.Address} Preferred Dinner: ${list_info.PreferredDinner} Earned Points: ${list_info.EarnedPointsd} Credit Card: ${list_info.CardNumber} Payment Method: ${list_info.PaymentMethod}\t` 
 
         li.innerHTML = body;
 
@@ -69,6 +80,28 @@ const handle_change_payment_method = (event) => {
         // demo.
         if (data.Accepted) {
             alert("Payment Method Updated!");
+            window.location.href = "/user";
+        }
+        else {
+            alert("An Error Has Occurred. Please Try Again");
+            window.location.href = "/user";  
+        }
+    })
+    return false;
+}
+
+const handle_change_credit_card = (event) => {
+    const form = new FormData(event.target);
+    const cardNumber = form.get("cardNumber");
+
+    const response = updateCreditCard({UserID: user_id, CreditNumber: cardNumber});
+    response.then(data => {
+        // Data will be an object with one or two keys. It has Accepted, a boolean indicating if
+        // the signup request is accepted. If it is, then the object also has the key UserID, corresponding 
+        // to the ID of the user in the database internally. This is insanely insecure but will work for our
+        // demo.
+        if (data.Accepted) {
+            alert("Credit Card Updated!");
             window.location.href = "/user";
         }
         else {
