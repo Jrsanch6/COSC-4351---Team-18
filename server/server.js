@@ -244,11 +244,11 @@ async function handle_posts_requests(request, response) {
 // through this function.
 async function server_handler(request, response) {
     console.log(request.url);
-    if (request.url === '/' || request.url === '/reservation') { // Default to index page?
+    if (request.url === '/' || request.url === '/reservation' || request.url.substr(0, 13) === "/reservation?" || request.url.substr(0, 2) === "/?") { // Default to index page?
         file_path = pages_path + '/html/reservation.html';
         content_type = 'text/html';
     }
-    else if (request.url === '/reservationRegistered' ) {
+    else if (request.url === '/reservationRegistered' || request.url.substr(0, 23) === "/reservationRegistered?") {
         file_path = pages_path + '/html/reservationRegistered.html';
         content_type = 'text/html';
     }
